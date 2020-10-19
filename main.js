@@ -1,45 +1,74 @@
-
-const { app, BrowserWindow,Menu } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const Shortcut = require('electron-shortcut');
 require('electron-reload')(__dirname);
 
+
+
 let menuTemplate = [
   {
-      label: "HYBS",
-      // submenu: [
-      //     { label: "create New" }
-      // ]
+    label: "HYBS",
+    // submenu: [
+    //     { label: "create New" }
+    // ]
   }
 ];
 
-  let menu = Menu.buildFromTemplate(menuTemplate);
-  Menu.setApplicationMenu(menu);
+let menu = Menu.buildFromTemplate(menuTemplate);
+Menu.setApplicationMenu(menu);
 
 function createWindow() {
 
-  
+
   const mainWindow = new BrowserWindow({
+    transparent: true,
+    frame: false,
     width: 1024,
     height: 768,
     alwaysOnTop: true,
     //y: 0, x: 0,
-    minimizable: false,    
+    minimizable: false,
     type: 'desktop',
-    // webPreferences: {      
-    //   worldSafeExecuteJavaScript: true,
-    //   preload: path.join(__dirname, 'preload.js'),
-    //   nodeIntegration: true,
-    //   defaultEncoding: 'UTF-8',
-    //   worldSafeExecuteJavaScript: true,
-    //   enableRemoteModule: true,
-    //   maximizable: true,
-
-    // }
+    webPreferences: {
+      worldSafeExecuteJavaScript: true,
+      preload: path.join(__dirname, 'preload.js'),
+      nodeIntegration: true,
+      defaultEncoding: 'UTF-8',
+      worldSafeExecuteJavaScript: true,
+      enableRemoteModule: true,
+      maximizable: true
+    }
   });
   mainWindow.maximize();
   mainWindow.focus();
-  mainWindow.loadFile('app/index.html')
+  mainWindow.loadFile('app/index.html');
+
+
+  mainWindow.on('close', function(e) {
+    const choice = require('electron').dialog.showMessageBoxSync(this,
+      {
+        type: 'question',
+        buttons: ['Yes', 'No'],
+        title: 'Confirm',
+        message: 'Çıkmak istediğinizden emin misiniz?'
+      });
+    if (choice === 1) {
+      e.preventDefault();
+    }
+  });
+
+  // mainWindow.on('close', function(e){
+  //   var choice = require('electron').dialog.showMessageBox(this,
+  //       {
+  //         type: 'question',
+  //         buttons: ['Yes', 'No'],
+  //         title: 'Confirm',
+  //         message: 'Are you sure you want to quit?'
+  //      });
+  //      if(choice == 1){
+  //        e.preventDefault();
+  //      }
+  //   });
 
   // Open the DevTools.
   var shortcut = new Shortcut('Ctrl+F12', function (e) {
@@ -68,7 +97,7 @@ app.whenReady().then(() => {
 // for applications and their menu bar to stay active until the user quits
 // explicitly with Cmd + Q.
 app.on('window-all-closed', function () {
-  if (process.platform !== 'darwin') app.quit()
+  if (process.platform !== 'darwin') app.quit();
 })
 
 // In this file you can include the rest of your app's specific main process
