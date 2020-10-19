@@ -29,6 +29,7 @@ function createWindow() {
       maximizable: true
     }
   });
+  mainWindow.setAlwaysOnTop(true)
   mainWindow.maximize();
   mainWindow.focus();
   mainWindow.loadFile('app/index.html');
