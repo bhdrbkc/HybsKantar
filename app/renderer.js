@@ -80,6 +80,7 @@ $(".close").on("click", function () {
 
     var temizle = function () {
 
+        tempEtiketNo = [];
         body_color('bg-info');
         $("#txtSonuc").text("...");
         $("#txtArac").text("...");
@@ -111,7 +112,7 @@ $(".close").on("click", function () {
 
 
             win.setProgressBar(parseFloat("0." + tempEtiketNo.length));
-            $('.progress-bar').css('width', tempEtiketNo.length + '%').attr('aria-valuenow', tempEtiketNo.length);
+            $('.progress-bar').css('width', tempEtiketNo.length + '%').attr('aria-valuenow', tempEtiketNo.length).text(tempEtiketNo.length + "% HGS");
 
             if (tempEtiketNo.length < 100) return;
 

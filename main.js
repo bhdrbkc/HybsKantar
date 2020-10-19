@@ -12,6 +12,7 @@ function createWindow() {
     //titleBarStyle: 'hidden',
     //transparent: false,
     //frame: false,
+    fullscreen: true,
     width: 1024,
     height: 768,
     alwaysOnTop: true,
