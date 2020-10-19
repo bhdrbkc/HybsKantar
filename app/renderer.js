@@ -26,7 +26,7 @@ const { intersection } = require('lodash');
 let win = remote.getCurrentWindow();
 win.setProgressBar(0.0);
 
-$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0); 
+$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0);
 
 var body_color = function (color) {
     $("#body").removeClass("bg-success").removeClass("bg-info").removeClass("bg-danger").addClass(color, 1000);
@@ -34,6 +34,12 @@ var body_color = function (color) {
 
 body_color('bg-info');
 $("#hybs-version").text("v" + config.version);
+
+
+
+$(".close").on("click", function () {
+    win.close();
+});
 
 
 (async () => {
@@ -103,9 +109,9 @@ $("#hybs-version").text("v" + config.version);
 
             $('#broadcast').css('opacity', "0." + tempEtiketNo.length);
 
-           
+
             win.setProgressBar(parseFloat("0." + tempEtiketNo.length));
-            $('.progress-bar').css('width', tempEtiketNo.length+'%').attr('aria-valuenow', tempEtiketNo.length);
+            $('.progress-bar').css('width', tempEtiketNo.length + '%').attr('aria-valuenow', tempEtiketNo.length);
 
             if (tempEtiketNo.length < 100) return;
 

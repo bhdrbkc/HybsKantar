@@ -4,10 +4,9 @@ const Shortcut = require('electron-shortcut');
 require('electron-reload')(__dirname);
 
 
-
+var onclose = false;
 
 function createWindow() {
-
 
   const mainWindow = new BrowserWindow({
     //titleBarStyle: 'hidden',
@@ -32,12 +31,15 @@ function createWindow() {
   mainWindow.setAlwaysOnTop(true)
   mainWindow.maximize();
   mainWindow.focus();
+  mainWindow.setMenu(null)
   mainWindow.loadFile('app/index.html');
 
-  mainWindow.setMenu(null)
+  
 
 
-  mainWindow.on('close', function(e) {
+ 
+  mainWindow.on('close', function (e) {
+    onclose = true;
     const choice = require('electron').dialog.showMessageBoxSync(this,
       {
         type: 'question',
@@ -77,13 +79,10 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
-})
+});
 
 app.on('browser-window-blur', function (e) {
-  
-  e.sender.show();
-
-
-
-})
+  if (!onclose)
+    e.sender.show();
+});
 
