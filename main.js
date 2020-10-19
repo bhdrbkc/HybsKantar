@@ -21,9 +21,9 @@ function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
-    //alwaysOnTop: true,
+    alwaysOnTop: true,
     y: 0, x: 0,
-    minimizable: false,    
+    minimizable: true,    
     type: 'desktop',
     webPreferences: {      
       worldSafeExecuteJavaScript: true,
