@@ -14,6 +14,8 @@ window.Bootstrap = require('bootstrap')
 const { Console } = require('console');
 var net = require('net');
 var _ = require('lodash');
+const customTitlebar = require('custom-electron-titlebar');
+
 
 const helper = require('./helper');
 const api = require('./api');
@@ -25,6 +27,14 @@ const { intersection } = require('lodash');
 let win = remote.getCurrentWindow();
 win.setProgressBar(0.0);
 
+let MyTitleBar = new customTitlebar.Titlebar({
+    backgroundColor: customTitlebar.Color.fromHex('#03a9f4'),
+    shadow: true,
+    icon: './icon.svg'
+});
+
+// 3. Update Titlebar text
+MyTitleBar.updateTitle('Our Code World Tutorials Rock !');
 
 
 
