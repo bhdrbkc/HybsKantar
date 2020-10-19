@@ -6,7 +6,8 @@
 // selectively enable features needed in the rendering
 // process.
 
-const { webContents } = require('electron')
+const { webContents, remote } = require('electron')
+const { BrowserWindow } = require('electron').remote
 window.$ = window.jQuery = require('jquery')
 window.Tether = require('tether')
 window.Bootstrap = require('bootstrap')
@@ -18,6 +19,13 @@ const helper = require('./helper');
 const api = require('./api');
 const config = require('./config');
 const tcp = require('./tcp');
+const { intersection } = require('lodash');
+
+
+let win = remote.getCurrentWindow();
+win.setProgressBar(0.0);
+
+
 
 
 var body_color = function (color) {
@@ -95,6 +103,8 @@ $("#hybs-version").text("v" + config.version);
 
             $('#broadcast').css('opacity', "0." + tempEtiketNo.length);
 
+           
+            win.setProgressBar(parseFloat("0." + tempEtiketNo.length));
 
             if (tempEtiketNo.length < 50) return;
 
