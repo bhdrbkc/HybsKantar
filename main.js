@@ -23,19 +23,19 @@ function createWindow() {
     width: 1024,
     height: 768,
     alwaysOnTop: true,
-    y: 0, x: 0,
-    minimizable: true,    
+    //y: 0, x: 0,
+    minimizable: false,    
     type: 'desktop',
-    webPreferences: {      
-      worldSafeExecuteJavaScript: true,
-      preload: path.join(__dirname, 'preload.js'),
-      nodeIntegration: true,
-      defaultEncoding: 'UTF-8',
-      worldSafeExecuteJavaScript: true,
-      enableRemoteModule: true,
-      maximizable: true,
+    // webPreferences: {      
+    //   worldSafeExecuteJavaScript: true,
+    //   preload: path.join(__dirname, 'preload.js'),
+    //   nodeIntegration: true,
+    //   defaultEncoding: 'UTF-8',
+    //   worldSafeExecuteJavaScript: true,
+    //   enableRemoteModule: true,
+    //   maximizable: true,
 
-    }
+    // }
   });
   mainWindow.maximize();
   mainWindow.focus();
