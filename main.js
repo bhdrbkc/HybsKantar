@@ -81,7 +81,8 @@ app.on('window-all-closed', function () {
 
 app.on('browser-window-blur', function (e) {
   
-  e.preventDefault();
+  e.sender.show();
+
 
 
 })
