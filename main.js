@@ -1,9 +1,24 @@
 
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow,Menu } = require('electron');
 const path = require('path');
 const Shortcut = require('electron-shortcut');
 require('electron-reload')(__dirname);
 
+let menuTemplate = [
+  {
+      label: "Window Manager",
+      submenu: [
+          { label: "create New" }
+      ]
+  },
+  {
+    label : "View",
+          submenu : [
+      { role : "reload" },
+      { label : "custom reload" }
+      ]
+  }
+];
 
 
 
@@ -29,7 +44,10 @@ function createWindow() {
     }
   });
 
-  mainWindow.setMenu(null);
+  let menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
+
+
   mainWindow.maximize();
   mainWindow.focus()
 
