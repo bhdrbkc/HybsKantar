@@ -6,17 +6,10 @@ require('electron-reload')(__dirname);
 
 let menuTemplate = [
   {
-      label: "Window Manager",
-      submenu: [
-          { label: "create New" }
-      ]
-  },
-  {
-    label : "View",
-          submenu : [
-      { role : "reload" },
-      { label : "custom reload" }
-      ]
+      label: "HYBS",
+      // submenu: [
+      //     { label: "create New" }
+      // ]
   }
 ];
 
