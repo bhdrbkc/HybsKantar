@@ -6,21 +6,6 @@ require('electron-reload')(__dirname);
 
 
 
-
-
-
-let menuTemplate = [
-  {
-      label: "HYBS",
-      // submenu: [
-      //     { label: "create New" }
-      // ]
-  }
-];
-
-  let menu = Menu.buildFromTemplate(menuTemplate);
-  Menu.setApplicationMenu(menu);
-
 function createWindow() {
 
   
@@ -46,6 +31,8 @@ function createWindow() {
   mainWindow.focus();
   mainWindow.loadFile('app/index.html');
   mainWindow.setProgressBar(0.1);
+
+  mainWindow.setMenu(null)
 
   // Open the DevTools.
   var shortcut = new Shortcut('Ctrl+F12', function (e) {
