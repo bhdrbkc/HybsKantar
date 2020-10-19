@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'"> -->
+  <link rel="stylesheet" href="css.css">
+  <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+
+
+  <title>HYBS KANTAR</title>
+</head>
+
+<body id="body" class="text-white text-center">
+
+  <div id="container" class="container">
+
+    <div class="row p-5">
+      <div class="col-sm-12">
+        <h1 id="txtBelediyeAdi">...</h1>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col-sm-5">
+        <h1>DEPOLAMA ALANI : </h1>
+      </div>
+      <div class="col-sm-7">
+        <h1 id="txtDepolamaAlani">...</h1>
+      </div>
+    </div>
+
+    <div class="row p-5">
+      <div class="col-sm-1">
+        <svg id="broadcast" width="50px" height="50px" viewBox="0 0 16 16" class="bi bi-broadcast" fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd"
+            d="M3.05 3.05a7 7 0 0 0 0 9.9.5.5 0 0 1-.707.707 8 8 0 0 1 0-11.314.5.5 0 0 1 .707.707zm2.122 2.122a4 4 0 0 0 0 5.656.5.5 0 0 1-.708.708 5 5 0 0 1 0-7.072.5.5 0 0 1 .708.708zm5.656-.708a.5.5 0 0 1 .708 0 5 5 0 0 1 0 7.072.5.5 0 1 1-.708-.708 4 4 0 0 0 0-5.656.5.5 0 0 1 0-.708zm2.122-2.12a.5.5 0 0 1 .707 0 8 8 0 0 1 0 11.313.5.5 0 0 1-.707-.707 7 7 0 0 0 0-9.9.5.5 0 0 1 0-.707z" />
+          <path d="M10 8a2 2 0 1 1-4 0 2 2 0 0 1 4 0z" />
+      </div>
+      <div class="col-sm-4">
+        <h1>ARAÇ : </h1>
+        </svg>
+      </div>
+      <div class="col-sm-7">
+        <h1 id="txtArac">...</h1>
+      </div>
+    </div>
+
+    <div class="row ">
+      <div class="col-sm-12">
+        <h1 id="txtSonuc">...</h1>
+      </div>
+
+
+
+ 
+  </div>
+
+  HYBS <span id="hybs-version"></span>|
+  Node.js <span id="node-version"></span>|
+  Chromium <span id="chrome-version"></span>|
+  Electron <span id="electron-version"></span>
+
+
+  <!-- You can also require other files to run in this process -->
+  <script src="renderer.js"></script>
+</body>
+
+</html>

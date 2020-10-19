@@ -1,0 +1,50 @@
+{
+  "name": "hybs-kantar",
+  "version": "1.0.0",
+  "description": "HYBS",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --linux -p always",
+    "builder": "electron-builder --linux deb tar.xz",
+    "abc": "electron-builder --linux snap"
+  },
+  "repository": "",
+  "keywords": [
+    "HYBS"
+  ],
+  "author": "Premierturk",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^10.1.3",
+    "electron-builder": "^22.9.1"
+  },
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bootstrap": "^4.5.0",
+    "electron-reload": "^1.5.0",
+    "electron-shortcut": "^0.5.0",
+    "jquery": "^3.5.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
+    "net": "^1.0.2",
+    "net-socket": "^1.1.0",
+    "popper.js": "^1.16.1",
+    "tether": "^1.4.7"
+  },
+  "standard": {
+    "globals": [
+      "$"
+    ]
+  },
+  "build": {
+    "appId": "com.hybs.kantar",
+    "linux": {
+      "category": "App",
+      "target": {
+        "target": "AppImage",
+        "arch": "armv7l"
+      }
+    }
+  }
+}
