@@ -4,7 +4,17 @@ const path = require('path');
 const Shortcut = require('electron-shortcut');
 require('electron-reload')(__dirname);
 
+let menuTemplate = [
+  {
+      label: "HYBS",
+      // submenu: [
+      //     { label: "create New" }
+      // ]
+  }
+];
 
+  let menu = Menu.buildFromTemplate(menuTemplate);
+  Menu.setApplicationMenu(menu);
 
 function createWindow() {
 
@@ -29,10 +39,7 @@ function createWindow() {
   });
   mainWindow.maximize();
   mainWindow.focus();
-  mainWindow.loadFile('app/index.html');
-  mainWindow.setProgressBar(0.1);
-
-  mainWindow.setMenu(null)
+  mainWindow.loadFile('app/index.html')
 
   // Open the DevTools.
   var shortcut = new Shortcut('Ctrl+F12', function (e) {
@@ -42,16 +49,7 @@ function createWindow() {
 
 }
 
-app.setUserTasks([
-  {
-    program: process.execPath,
-    arguments: '',
-    iconPath: process.execPath,
-    iconIndex: 0,
-    title: 'HYBS WEB',
-    description: 'HYBS WEB'
-  }
-])
+
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.

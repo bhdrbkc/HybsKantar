@@ -23,7 +23,7 @@ const { intersection } = require('lodash');
 
 
 let win = remote.getCurrentWindow();
-
+win.setProgressBar(0.0);
 
 
 
@@ -104,7 +104,7 @@ $("#hybs-version").text("v" + config.version);
             $('#broadcast').css('opacity', "0." + tempEtiketNo.length);
 
            
-     
+            win.setProgressBar(parseFloat("0." + tempEtiketNo.length));
 
             if (tempEtiketNo.length < 50) return;
 
