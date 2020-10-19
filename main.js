@@ -5,25 +5,14 @@ require('electron-reload')(__dirname);
 
 
 
-let menuTemplate = [
-  {
-    label: "HYBS",
-    // submenu: [
-    //     { label: "create New" }
-    // ]
-  }
-];
-
-let menu = Menu.buildFromTemplate(menuTemplate);
-Menu.setApplicationMenu(menu);
 
 function createWindow() {
 
 
   const mainWindow = new BrowserWindow({
-    titleBarStyle: 'hidden',
-    transparent: false,
-    frame: false,
+    //titleBarStyle: 'hidden',
+    //transparent: false,
+    //frame: false,
     width: 1024,
     height: 768,
     alwaysOnTop: true,
@@ -43,6 +32,8 @@ function createWindow() {
   mainWindow.maximize();
   mainWindow.focus();
   mainWindow.loadFile('app/index.html');
+
+  mainWindow.setMenu(null)
 
 
   mainWindow.on('close', function(e) {
@@ -87,5 +78,10 @@ app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') app.quit();
 })
 
+app.on('browser-window-blur', function (e) {
+  
+  e.preventDefault();
 
+
+})
 

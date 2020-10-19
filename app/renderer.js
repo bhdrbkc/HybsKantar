@@ -14,7 +14,6 @@ window.Bootstrap = require('bootstrap')
 const { Console } = require('console');
 var net = require('net');
 var _ = require('lodash');
-const customTitlebar = require('custom-electron-titlebar');
 
 
 const helper = require('./helper');
@@ -27,16 +26,7 @@ const { intersection } = require('lodash');
 let win = remote.getCurrentWindow();
 win.setProgressBar(0.0);
 
-let MyTitleBar = new customTitlebar.Titlebar({
-    backgroundColor: customTitlebar.Color.fromHex('#03a9f4'),
-    shadow: true,
-    icon: './icon.svg'
-});
-
-// 3. Update Titlebar text
-MyTitleBar.updateTitle('Our Code World Tutorials Rock !');
-
-
+$('.progress-bar').css('width', '0%').attr('aria-valuenow', 0); 
 
 var body_color = function (color) {
     $("#body").removeClass("bg-success").removeClass("bg-info").removeClass("bg-danger").addClass(color, 1000);
@@ -115,8 +105,9 @@ $("#hybs-version").text("v" + config.version);
 
            
             win.setProgressBar(parseFloat("0." + tempEtiketNo.length));
+            $('.progress-bar').css('width', tempEtiketNo.length+'%').attr('aria-valuenow', tempEtiketNo.length);
 
-            if (tempEtiketNo.length < 50) return;
+            if (tempEtiketNo.length < 100) return;
 
 
             var result = _.head(_(tempEtiketNo)
