@@ -6,10 +6,13 @@
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder --linux -p always",
-    "builder": "electron-builder --linux deb tar.xz",
-    "abc": "electron-builder --linux snap"
+    "dist-win": "electron-builder --win -p always",
+    "dist-exe": "electron-builder --publish never"
   },
-  "repository": "",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/bhdrbkc/HybsKantar.git"
+  },
   "keywords": [
     "HYBS"
   ],
@@ -22,8 +25,10 @@
   "dependencies": {
     "axios": "^0.20.0",
     "bootstrap": "^4.5.0",
+    "electron-log": "^4.2.4",
     "electron-reload": "^1.5.0",
     "electron-shortcut": "^0.5.0",
+    "electron-updater": "^4.3.5",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
@@ -39,12 +44,22 @@
   },
   "build": {
     "appId": "com.hybs.kantar",
+    "publish": {
+      "provider": "github",
+      "owner": "",
+      "repo": "myrepo",
+      "private": false
+    },
     "linux": {
+      "publish": ["github"],
       "category": "App",
       "target": {
         "target": "AppImage",
         "arch": "armv7l"
       }
+    },
+    "win": {
+      "publish": ["github"]
     }
   }
 }

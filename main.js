@@ -1,7 +1,15 @@
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu,ipcMain  } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const Shortcut = require('electron-shortcut');
 require('electron-reload')(__dirname);
+
+
+Object.defineProperty(app, 'isPackaged', {
+  get() {
+    return true;
+  }
+});
 
 
 var onclose = false;
@@ -59,14 +67,30 @@ function createWindow() {
   });
 
 
-
+  ipcMain.on('app_version', (event) => {
+    event.sender.send('app_version', { version: app.getVersion() });
+  });
+  
+  autoUpdater.on('update-available', () => {
+    mainWindow.webContents.send('update_available');
+  });
+  
+  autoUpdater.on('update-downloaded', () => {
+    mainWindow.webContents.send('update_downloaded');
+  });
+  
+  ipcMain.on('restart_app', () => {
+    autoUpdater.quitAndInstall();
+  });
 
 }
 
 
 
 app.whenReady().then(() => {
-  createWindow()
+  createWindow();
+
+  autoUpdater.checkForUpdatesAndNotify();
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
@@ -86,4 +110,7 @@ app.on('browser-window-blur', function (e) {
   if (!onclose)
     e.sender.show();
 });
+
+
+
 
