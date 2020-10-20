@@ -1,10 +1,11 @@
 {
   "name": "hybs-kantar",
-  "version": "1.0.0",
+  "version": "1.0.6",
   "description": "HYBS",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "build-win": "electron-builder build --win --publish never",
     "dist": "electron-builder --linux -p always",
     "dist-win": "electron-builder --win -p always",
     "dist-exe": "electron-builder --publish never"
@@ -46,8 +47,9 @@
     "appId": "com.hybs.kantar",
     "publish": {
       "provider": "github",
-      "owner": "",
-      "repo": "myrepo",
+      "repo": "HybsKantar",
+      "owner": "bhdrbkc",
+      "token": "f0b73177386d712b932d71f29adfcfaa324195cf",
       "private": false
     },
     "linux": {
@@ -59,7 +61,14 @@
       }
     },
     "win": {
-      "publish": ["github"]
+      "target": "nsis",
+      "publish": {
+        "provider": "github",
+        "repo": "HybsKantar",
+        "owner": "bhdrbkc",
+        "token": "f0b73177386d712b932d71f29adfcfaa324195cf",
+        "private": false
+      }
     }
   }
 }

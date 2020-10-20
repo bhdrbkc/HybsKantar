@@ -317,29 +317,29 @@ $(".close").on("click", function () {
 
 
 
-})();
 
-
-
-
-ipcRenderer.send('app_version');
+    ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
       ipcRenderer.removeAllListeners('app_version');
-      //version.innerText = 'Version ' + arg.version;
+      helper.log_async('Version ' + arg.version);
     });
 
     ipcRenderer.on('update_available', () => {
       ipcRenderer.removeAllListeners('update_available');
-     // message.innerText = 'A new update is available. Downloading now...';
+      helper.log_async('A new update is available. Downloading now...');
       //notification.classList.remove('hidden');
     });
 
     ipcRenderer.on('update_downloaded', () => {
       ipcRenderer.removeAllListeners('update_downloaded');
-    //   message.innerText = 'Update Downloaded. It will be installed on restart. Restart now?';
+      helper.log_async('Update Downloaded. It will be installed on restart. Restart now?');
+      ipcRenderer.send('restart_app');
     //   restartButton.classList.remove('hidden');
     //   notification.classList.remove('hidden');
     });
+
+    // helper.log_async('check-update');
+    // ipcRenderer.send('check-update');
 
     function closeNotification() {
       notification.classList.add('hidden');
@@ -348,6 +348,14 @@ ipcRenderer.send('app_version');
     function restartApp() {
       ipcRenderer.send('restart_app');
     }
+
+
+
+})();
+
+
+
+
 
 
 

@@ -5,11 +5,11 @@ const Shortcut = require('electron-shortcut');
 require('electron-reload')(__dirname);
 
 
-Object.defineProperty(app, 'isPackaged', {
-  get() {
-    return true;
-  }
-});
+  Object.defineProperty(app, 'isPackaged', {
+    get() {
+      return true;
+    }
+  });
 
 
 var onclose = false;
@@ -21,8 +21,8 @@ function createWindow() {
     //transparent: false,
     //frame: false,
     fullscreen: true,
-    width: 1024,
-    height: 600,
+    width: 1152,
+    height: 864,
     alwaysOnTop: true,
     //y: 0, x: 0,
     minimizable: false,
@@ -83,6 +83,16 @@ function createWindow() {
     autoUpdater.quitAndInstall();
   });
 
+    
+  // ipcMain.on('check-update', () => {
+  //   autoUpdater.checkForUpdatesAndNotify().then(function(result) { 
+  //     console.info(result); 
+  //   }, function(error) { 
+  //     console.warn(error); 
+  //   }); 
+      
+  // });
+
 }
 
 
@@ -90,13 +100,21 @@ function createWindow() {
 app.whenReady().then(() => {
   createWindow();
 
-  autoUpdater.checkForUpdatesAndNotify();
+  
 
   app.on('activate', function () {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+
+
+  autoUpdater.checkForUpdatesAndNotify().then(function(result) { 
+    console.info(result); 
+  }, function(error) { 
+    console.warn(error); 
+  }); 
+
 });
 
 
