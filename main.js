@@ -22,7 +22,7 @@ function createWindow() {
     //frame: false,
     fullscreen: true,
     width: 1024,
-    height: 768,
+    height: 600,
     alwaysOnTop: true,
     //y: 0, x: 0,
     minimizable: false,
