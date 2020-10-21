@@ -1,15 +1,10 @@
 const { app, BrowserWindow, Menu,ipcMain  } = require('electron');
-const { autoUpdater } = require('electron-updater');
 const path = require('path');
 const Shortcut = require('electron-shortcut');
 require('electron-reload')(__dirname);
 
 
-  Object.defineProperty(app, 'isPackaged', {
-    get() {
-      return true;
-    }
-  });
+
 
 
 var onclose = false;
@@ -48,17 +43,17 @@ function createWindow() {
 
  
   mainWindow.on('close', function (e) {
-    onclose = true;
-    const choice = require('electron').dialog.showMessageBoxSync(this,
-      {
-        type: 'question',
-        buttons: ['Yes', 'No'],
-        title: 'Confirm',
-        message: 'Çıkmak istediğinizden emin misiniz?'
-      });
-    if (choice === 1) {
-      e.preventDefault();
-    }
+     onclose = true;
+    // const choice = require('electron').dialog.showMessageBoxSync(this,
+    //   {
+    //     type: 'question',
+    //     buttons: ['Yes', 'No'],
+    //     title: 'Confirm',
+    //     message: 'Çıkmak istediğinizden emin misiniz?'
+    //   });
+    // if (choice === 1) {
+    //   e.preventDefault();
+    // }
   });
 
   var shortcut = new Shortcut('Ctrl+F12', function (e) {
@@ -71,27 +66,7 @@ function createWindow() {
     event.sender.send('app_version', { version: app.getVersion() });
   });
   
-  autoUpdater.on('update-available', () => {
-    mainWindow.webContents.send('update_available');
-  });
-  
-  autoUpdater.on('update-downloaded', () => {
-    mainWindow.webContents.send('update_downloaded');
-  });
-  
-  ipcMain.on('restart_app', () => {
-    autoUpdater.quitAndInstall();
-  });
 
-    
-  // ipcMain.on('check-update', () => {
-  //   autoUpdater.checkForUpdatesAndNotify().then(function(result) { 
-  //     console.info(result); 
-  //   }, function(error) { 
-  //     console.warn(error); 
-  //   }); 
-      
-  // });
 
 }
 
@@ -109,11 +84,7 @@ app.whenReady().then(() => {
   })
 
 
-  autoUpdater.checkForUpdatesAndNotify().then(function(result) { 
-    console.info(result); 
-  }, function(error) { 
-    console.warn(error); 
-  }); 
+
 
 });
 

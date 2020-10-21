@@ -2,7 +2,6 @@
 
 
 module.exports = {
-        version : "1.0.0",
         username: "kantar",
         password: "pt123**",
         tcpPort: 5555,

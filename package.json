@@ -1,18 +1,16 @@
 {
   "name": "hybs-kantar",
-  "version": "1.0.6",
+  "version": "1.0.13",
   "description": "HYBS",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "build-win": "electron-builder build --win --publish never",
-    "dist": "electron-builder --linux -p always",
-    "dist-win": "electron-builder --win -p always",
-    "dist-exe": "electron-builder --publish never"
+    "dist": "electron-builder --linux -p never",
+    "dist-win": "electron-builder --win -p never"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/bhdrbkc/HybsKantar.git"
+    "type": "git",
+    "url": "https://github.com/bhdrbkc/HybsKantar.git"
   },
   "keywords": [
     "HYBS"
@@ -29,12 +27,12 @@
     "electron-log": "^4.2.4",
     "electron-reload": "^1.5.0",
     "electron-shortcut": "^0.5.0",
-    "electron-updater": "^4.3.5",
     "jquery": "^3.5.1",
     "lodash": "^4.17.20",
     "moment": "^2.29.1",
     "net": "^1.0.2",
     "net-socket": "^1.1.0",
+    "notiflix": "^2.6.0",
     "popper.js": "^1.16.1",
     "tether": "^1.4.7"
   },
@@ -49,11 +47,10 @@
       "provider": "github",
       "repo": "HybsKantar",
       "owner": "bhdrbkc",
-      "token": "f0b73177386d712b932d71f29adfcfaa324195cf",
-      "private": false
+      "private": false,
+      "releaseType": "release"
     },
-    "linux": {
-      "publish": ["github"],
+    "linux": {     
       "category": "App",
       "target": {
         "target": "AppImage",
@@ -61,14 +58,7 @@
       }
     },
     "win": {
-      "target": "nsis",
-      "publish": {
-        "provider": "github",
-        "repo": "HybsKantar",
-        "owner": "bhdrbkc",
-        "token": "f0b73177386d712b932d71f29adfcfaa324195cf",
-        "private": false
-      }
+      "target": "nsis"     
     }
   }
 }

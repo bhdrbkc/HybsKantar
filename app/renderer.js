@@ -15,12 +15,18 @@ const { Console } = require('console');
 var net = require('net');
 var _ = require('lodash');
 const { ipcRenderer } = require('electron');
+const { Notify, Report, Confirm, Loading, Block } = require("notiflix");
 
 
 const helper = require('./helper');
 const api = require('./api');
 const config = require('./config');
 const tcp = require('./tcp');
+
+
+Notify.Success('BAŞLATILDI...');
+
+
 
 
 let win = remote.getCurrentWindow();
@@ -33,7 +39,7 @@ var body_color = function (color) {
 };
 
 body_color('bg-info');
-$("#hybs-version").text("v" + config.version);
+
 
 
 
@@ -62,7 +68,7 @@ $(".close").on("click", function () {
 
     setInterval(function () {
         helper.log_async("UYGULAMA AYAKTA KULLANICI:" + user.username + " DEPOLAMA ALANI :" + user.depolamaAlanAdi);
-    }, 100000);
+    }, 1000000);
 
     $("#txtBelediyeAdi").text(user.buyuksehiradi);
     $("#txtDepolamaAlani").text(user.depolamaAlanAdi);
@@ -320,34 +326,11 @@ $(".close").on("click", function () {
 
     ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
-      ipcRenderer.removeAllListeners('app_version');
-      helper.log_async('Version ' + arg.version);
+        $("#hybs-version").text("v" + arg.version);
+        ipcRenderer.removeAllListeners('app_version');
+        helper.log_async('Version ' + arg.version);
     });
-
-    ipcRenderer.on('update_available', () => {
-      ipcRenderer.removeAllListeners('update_available');
-      helper.log_async('A new update is available. Downloading now...');
-      //notification.classList.remove('hidden');
-    });
-
-    ipcRenderer.on('update_downloaded', () => {
-      ipcRenderer.removeAllListeners('update_downloaded');
-      helper.log_async('Update Downloaded. It will be installed on restart. Restart now?');
-      ipcRenderer.send('restart_app');
-    //   restartButton.classList.remove('hidden');
-    //   notification.classList.remove('hidden');
-    });
-
-    // helper.log_async('check-update');
-    // ipcRenderer.send('check-update');
-
-    function closeNotification() {
-      notification.classList.add('hidden');
-    }
-    
-    function restartApp() {
-      ipcRenderer.send('restart_app');
-    }
+ 
 
 
 
