@@ -22,7 +22,7 @@
     "electron-builder": "^22.9.1"
   },
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "electron-log": "^4.2.4",
     "electron-reload": "^1.5.0",
@@ -34,6 +34,7 @@
     "net-socket": "^1.1.0",
     "notiflix": "^2.6.0",
     "popper.js": "^1.16.1",
+    "qrcode-reader": "^1.0.4",
     "tether": "^1.4.7"
   },
   "standard": {
@@ -50,7 +51,7 @@
       "private": false,
       "releaseType": "release"
     },
-    "linux": {     
+    "linux": {
       "category": "App",
       "target": {
         "target": "AppImage",
@@ -58,7 +59,7 @@
       }
     },
     "win": {
-      "target": "nsis"     
+      "target": "nsis"
     }
   }
 }

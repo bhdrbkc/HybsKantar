@@ -6,7 +6,7 @@
 // selectively enable features needed in the rendering
 // process.
 
-const { webContents, remote } = require('electron')
+const { webContents, remote ,ipcRenderer } = require('electron')
 const { BrowserWindow } = require('electron').remote
 window.$ = window.jQuery = require('jquery')
 window.Tether = require('tether')
@@ -14,8 +14,8 @@ window.Bootstrap = require('bootstrap')
 const { Console } = require('console');
 var net = require('net');
 var _ = require('lodash');
-const { ipcRenderer } = require('electron');
 const { Notify, Report, Confirm, Loading, Block } = require("notiflix");
+var QrCode = require('qrcode-reader');
 
 
 const helper = require('./helper');
@@ -24,9 +24,19 @@ const config = require('./config');
 const tcp = require('./tcp');
 
 
+
+
 Notify.Success('BAŞLATILDI...');
 
+var qr = new QrCode();
 
+qr.callback = function(error, result) {
+    if(error) {
+      console.log(error)
+      return;
+    }
+    console.log(result)
+  }
 
 
 let win = remote.getCurrentWindow();
@@ -50,6 +60,7 @@ $(".close").on("click", function () {
 
 (async () => {
 
+
     helper.log_async("UYGULAMA BAŞLADI");
     helper.log_async("CONFIG : " + JSON.stringify(config));
 
@@ -67,7 +78,7 @@ $(".close").on("click", function () {
     helper.log_async("LOGIN BİTTİ : " + JSON.stringify(user));
 
     setInterval(function () {
-        helper.log_async("UYGULAMA AYAKTA KULLANICI:" + user.username + " DEPOLAMA ALANI :" + user.depolamaAlanAdi);
+        helper.log_async("UYGULAMA AYAKTA KULLANICI :" + user.username + " DEPOLAMA ALANI :" + user.depolamaAlanAdi);
     }, 1000000);
 
     $("#txtBelediyeAdi").text(user.buyuksehiradi);
@@ -76,8 +87,8 @@ $(".close").on("click", function () {
     helper.log_async("ARAC LISTESI BAŞLADI");
     var aracListesi = await api.get(user.authtoken, "api/kantar/araclistesi?EtiketNo=");
     helper.log_async("ARAC LISTESI BİTTİ " + aracListesi.length);
-
-
+ 
+ 
     var last_post_data = { rfid: 0, belgeNo: "" };
     var rfTag = "";
     var aracId = 0;
@@ -85,6 +96,8 @@ $(".close").on("click", function () {
 
 
     var temizle = function () {
+
+        $('.progress-bar').css('width', 0 + '%').attr('aria-valuenow', 0).text(0 + "% HGS");
 
         tempEtiketNo = [];
         body_color('bg-info');
@@ -102,11 +115,11 @@ $(".close").on("click", function () {
     tcp.myTcp(
         function (c) {
             client = c;
-            helper.log_async("CLIENT CONNECTED ");
+            helper.log_async("CLIENT CONNECTED");
         },
-
         function (data) {
 
+            console.log(data);
 
             if (data.toString().substring(0, 4) != config.etiketStartWith) return;
 
@@ -114,14 +127,15 @@ $(".close").on("click", function () {
             tempEtiketNo.push(number);
 
 
-            $('#broadcast').css('opacity', "0." + tempEtiketNo.length);
+            var k = tempEtiketNo.length * 20;
+
+            $('#broadcast').css('opacity', "0." + k);
 
 
-            win.setProgressBar(parseFloat("0." + tempEtiketNo.length));
-            $('.progress-bar').css('width', tempEtiketNo.length + '%').attr('aria-valuenow', tempEtiketNo.length).text(tempEtiketNo.length + "% HGS");
+            win.setProgressBar(parseFloat("0." + k));
+            $('.progress-bar').css('width', k + '%').attr('aria-valuenow', k).text(k + "% HGS");
 
-            if (tempEtiketNo.length < 100) return;
-
+            if (tempEtiketNo.length < 5) return;
 
             var result = _.head(_(tempEtiketNo)
                 .countBy()
@@ -130,7 +144,7 @@ $(".close").on("click", function () {
 
             tempEtiketNo = [];
 
-            if (last_post_data.rfid === rfTag) return;
+            if (last_post_data.rfid === data) return;
 
 
             var arac = _.first(_.filter(aracListesi, { OGSEtiket: result }));
@@ -142,17 +156,26 @@ $(".close").on("click", function () {
                 api.get(user.authtoken, "api/kantar/araclistesi?EtiketNo=" + result).then(data => {
                     helper.log_async("ARAÇ LİSTESİ BY ETIKET END : " + JSON.stringify(data));
 
-                    aracId = data.aracId;
-                    plakaNo = data.plakaNo;
+                    if(data === null){
 
-                    aracListesi.push(data);
+                        $("#txtSonuc").text("TANIMSIZ HGS ...");
+                        helper.log_async("TANIMSIZ HGS ETIKET " + result);
 
-                    helper.log_async(JSON.stringify(data));
+                    }else{
 
-                    $("#txtArac").text(data.PlakaNo);
+                        aracId = data.aracId;
+                        plakaNo = data.plakaNo;
+    
+                        aracListesi.push(data);
+    
+                        helper.log_async(JSON.stringify(data));
+    
+                        $("#txtArac").text(data.PlakaNo);
+    
+                        $("#txtSonuc").text("BARKOD OKUTUNUZ...");
+                        helper.log_async("QRCODE BEKLENİYOR...");
 
-                    $("#txtSonuc").text("BARKOD OKUTUNUZ...");
-                    helper.log_async("QRCODE BEKLENİYOR...");
+                    }                 
 
                 });
 
@@ -162,14 +185,11 @@ $(".close").on("click", function () {
                 plakaNo = arac.plakaNo;
                 $("#txtArac").text(arac.PlakaNo);
                 $("#txtSonuc").text("BARKOD OKUTUNUZ...");
-                helper.log_async("QRCODE BEKLİNİYOR...");
+                helper.log_async("QRCODE BEKLENİYOR...");
 
             }
 
             rfTag = result;
-
-
-
 
         });
 
@@ -188,6 +208,7 @@ $(".close").on("click", function () {
 
 
         if (event.keyCode == 13) {
+            var belge = {};
             helper.log_async("BARKOD OKUTULDU : " + readBarkod);
 
             if (readBarkod.indexOf("KF-") > -1 && readBarkod.indexOf("-KF") > -1) {//KAMUFİŞ
@@ -253,7 +274,6 @@ $(".close").on("click", function () {
 
     };
 
-
     var loading = false;
     var BelgeKontrol = async function (qrCode) {
 
@@ -281,7 +301,7 @@ $(".close").on("click", function () {
         };
 
         helper.log_async("LAST BN :" + last_post_data.belgeNo + " CURRENT BN :" + qrCode);
-        if (last_post_data.belgeNo == qrCode) return;
+        //if (last_post_data.belgeNo == qrCode) return;
 
         if (!loading) {
 
@@ -290,7 +310,7 @@ $(".close").on("click", function () {
             last_post_data.rfid = rfTag;
             last_post_data.belgeNo = qrCode;
 
-
+            $("#txtSonuc").text("BEKLEYİNİZ");
             helper.log_async("POST START");
             helper.log_async("POST DATA : " + JSON.stringify(data));
             var sonuc = await api.post(user.authtoken, "api/HafriyatDokum/DoorControl", data);
@@ -313,16 +333,13 @@ $(".close").on("click", function () {
             }
 
 
-            setTimeout(temizle, 10000);
+            setTimeout(temizle, 5000);
 
             loading = false;
         }
 
 
-    }
-
-
-
+    };
 
     ipcRenderer.send('app_version');
     ipcRenderer.on('app_version', (event, arg) => {
@@ -332,9 +349,9 @@ $(".close").on("click", function () {
     });
  
 
-
-
 })();
+
+
 
 
 

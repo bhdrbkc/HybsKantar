@@ -1,6 +1,7 @@
 'use strict';
 
 const helper = require('./helper');
+const config = require('./config');
 
 module.exports = {
 
@@ -18,12 +19,30 @@ module.exports = {
             client.setTimeout(1000);
 
             client.on('data', function (received) {
+                if(config.avaxEtiket){
 
+                    if (received.length != 18)
+                    return;
+
+
+                    var hex1 = helper.byteToHex(received[13]);
+                    var hex2 = helper.byteToHex(received[14]);
+                    var hex3 = helper.byteToHex(received[15]);
+
+                    var etiket = parseInt(hex1 + hex2 + hex3, 16);
+
+                    e(etiket);
+
+                }else
                 for (let i = 0; i < received.length; i++) {
+
+                    var hex = helper.byteToHex(received[i + 1]);
+                    var par = parseInt(hex, 16);
+                    console.log(par);
 
                     if (received[i] == 0x13) {
 
-                        if (received.Length < i + 3)
+                        if (received.length < i + 3)
                             return;
                         var hex1 = helper.byteToHex(received[i + 1]);
                         var hex2 = helper.byteToHex(received[i + 2]);
